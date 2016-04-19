@@ -1,3 +1,4 @@
+within ;
 package IPE_rovnice
   model IPE0
     parameter Real NaE = 10;
@@ -1656,7 +1657,8 @@ package IPE_rovnice
     annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})));
   end IPE6;
 
-  model IPE7_ven
+  model IPE7_ven_units1
+  //default
     parameter Real NaE = 10;
     parameter Real KE = 99;
     parameter Real ClE = 55.3;
@@ -1890,8 +1892,251 @@ package IPE_rovnice
     fB = Vblood / (Vblood + Vint);
     SID = (1 - (1 - HCO3E / HCO3P) * fH * fB) * HCO3P + (1 - fH * fB) * (C_AlbP * (8 * pHP - 41) + C_PiP * (0.3 * pHP - 0.4)) + C_Hb * fB * (10.2 * pHP - 73.6) + C_DPG * fH * fB * (0.7 * pHP - 0.5);
     //  SID=(1-(1-(HCO3E/HCO3P))*((Vew+(Vew/0.73*(1-0.73)))/((Vew+(Vew/0.73*(1-0.73))))+(Vpw+(Vpw/0.94*(1-0.94))*(Vblood/(Vblood+Vint)))*HCO3P+(1-((Vew+(Vew/0.73*(1-0.73)))/((Vew+(Vew/0.73*(1-0.73))))*(Vblood/(Vblood+Vint)))
-    annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})));
-  end IPE7_ven;
+    annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})),
+      __Dymola_DymolaStoredErrors(thetext="model IPE7_ven
+  //default concentration of ions
+//erythrocyte
+  parameter Real NaE = 10(unit=\"mmol/l\");
+  parameter Real KE = 99(unit=\"mmol/l\");
+  parameter Real ClE = 55.3(unit=\"mmol/l\");
+  parameter Real Hb = 5.3(unit=\"mmol/l\");
+  parameter Real DPG = 4.4(unit=\"mmol/l\");
+  parameter Real ATP = 1.8(unit=\"mmol/l\");
+  parameter Real GSH = 2.2(unit=\"mmol/l\");
+  parameter Real imE = 95.9(unit=\"mmol/l\");
+  parameter Real PiE = 0.67(unit=\"mmol/l\");
+  //plasma and intersticium
+  parameter Real NaP = 141(unit=\"mmol/l\");
+  parameter Real NaI = 142(unit=\"mmol/l\");
+  parameter Real KP = 4.2(unit=\"mmol/l\");
+  parameter Real KI = 4.14(unit=\"mmol/l\");
+  parameter Real CaP = 2.3(unit=\"mmol/l\");
+  parameter Real CaI = 2.2(unit=\"mmol/l\");
+  parameter Real MgP = 0.8(unit=\"mmol/l\");
+  parameter Real MgI = 0.75(unit=\"mmol/l\");
+  parameter Real ClP = 104(unit=\"mmol/l\");
+  parameter Real ClI = 118(unit=\"mmol/l\");
+  parameter Real PiP = 1.16(unit=\"mmol/l\");
+  parameter Real PiI = 1.2(unit=\"mmol/l\");
+  parameter Real AlbP = 0.65(unit=\"mmol/l\");
+  parameter Real AlbI = 0.19(unit=\"mmol/l\");
+  parameter Real imP = 21.5(unit=\"mmol/l\");
+  parameter Real imI = 20(unit=\"mmol/l\");
+  //charge of other impermeable species
+  parameter Real ZimE = 0.02;
+  parameter Real ZimI = 0.012;
+  parameter Real ZimP = -0.2;
+  //volumes
+  parameter Real Vblood = 1(unit=\"l\");
+  parameter Real Vint = 2(unit=\"l\");
+  //partial pressure of CO2
+  parameter Real PCO2 = 46(unit=\"torr\");
+  //default hematocrit
+  parameter Real hemat0=0.44;
+  //
+  //derived parameters
+  //volumes of erythrocytes, plsama and intersticium
+  parameter Real Vew0 = 0.44 * 0.73 * Vblood;
+  parameter Real Vpw0 = (1 - 0.44) * 0.94 * Vblood;
+  parameter Real Viw0 = Vint;
+  //
+  parameter Real m0NaE = NaE * Vew0;
+  parameter Real m0KE = KE * Vew0;
+  parameter Real m0ClE = ClE * Vew0;
+  parameter Real m0Hb = Hb * Vew0;
+  parameter Real m0DPG = DPG * Vew0;
+  parameter Real m0ATP = ATP * Vew0;
+  parameter Real m0GSH = GSH * Vew0;
+  parameter Real m0imE = imE * Vew0;
+  parameter Real m0PiE = PiE * Vew0;
+  //
+  parameter Real m0NaP = NaP * Vpw0;
+  parameter Real m0NaI = NaI * Viw0;
+  parameter Real m0KP = KP * Vpw0;
+  parameter Real m0KI = KI * Viw0;
+  parameter Real m0CaP = CaP * Vpw0;
+  parameter Real m0CaI = CaI * Viw0;
+  parameter Real m0MgP = MgP * Vpw0;
+  parameter Real m0MgI = MgI * Viw0;
+  parameter Real m0ClP = ClP * Vpw0;
+  parameter Real m0ClI = ClI * Viw0;
+  parameter Real m0PiP = PiP * Vpw0;
+  parameter Real m0PiI = PiI * Viw0;
+  parameter Real m0AlbP = AlbP * Vpw0;
+  parameter Real m0AlbI = AlbI * Viw0;
+  parameter Real m0imP = imP * Vpw0;
+  parameter Real m0imI = imI * Viw0;
+  //celkovy mnozstvi
+  parameter Real MCl = m0ClE + m0ClP + m0ClI;
+  parameter Real MNa = m0NaP + m0NaI;
+  parameter Real MK = m0KP + m0KI;
+  parameter Real MCa = m0CaP + m0CaI;
+  parameter Real MMg = m0MgP + m0MgI;
+  parameter Real MPi = m0PiP + m0PiI;
+  //mobilni ionty
+  Real mClE;
+  Real mClP(start = m0ClP);
+  Real mClI;
+  Real mNaP;
+  Real mNaI;
+  Real mKP(start = m0KP);
+  Real mKI(start = m0KI);
+  Real mCaP;
+  Real mCaI(start = m0CaI);
+  Real mMgP(start = m0MgP);
+  Real mMgI(start = m0MgI);
+  Real mPiP(start = m0PiP);
+  Real mPiI(start = m0PiI);
+  //13
+  Real Vew(start = Vew0);
+  Real Vpw(start = Vpw0);
+  Real Viw(start = Viw0);
+  //3
+  Real HCO3E;
+  Real HCO3P;
+  Real HCO3I;
+  //3
+  //ostatni
+  //pH
+  Real pHE(start = 7.22);
+  Real pHP(start = 7.4);
+  Real pHI(start = 7.39);
+  //Z
+  Real ZPi;
+  Real ZAlb;
+  Real ZHb;
+  Real ZDPG;
+  Real ZATP;
+  Real ZGSH;
+  Real fiHb;
+  //karbonaty
+  Real CO3E;
+  Real CO3P;
+  Real CO3I;
+  //C
+  Real C_NaE(start = NaE);
+  Real C_KE(start = KE);
+  Real C_ClE(start = ClE);
+  Real C_Hb(start = Hb);
+  Real C_DPG(start = DPG);
+  Real C_ATP(start = ATP);
+  Real C_GSH(start = GSH);
+  Real C_imE(start = imE);
+  Real C_PiE(start = PiE);
+  //
+  Real C_NaP(start = NaP);
+  Real C_NaI(start = NaI);
+  Real C_KP(start = KP);
+  Real C_KI(start = KI);
+  Real C_CaP(start = CaP);
+  Real C_CaI(start = CaI);
+  Real C_MgP(start = MgP);
+  Real C_MgI(start = MgI);
+  Real C_ClP(start = ClP);
+  Real C_ClI(start = ClI);
+  Real C_PiP(start = PiP);
+  Real C_PiI(start = PiI);
+  Real C_AlbP(start = AlbP);
+  Real C_AlbI(start = AlbI);
+  Real C_imP(start = imP);
+  Real C_imI(start = imI);
+  //
+  Real BE;
+  Real SIDp;
+  Real SIDe;
+  Real SIDi;
+  Real SIDp2;
+  Real SID;
+  Real fH;
+  Real fB;
+equation 
+  //zachovani hmoty
+  MCl = mClE + mClP + mClI;
+  MNa = mNaP + mNaI;
+  MK = mKP + mKI;
+  MCa = mCaP + mCaI;
+  MMg = mMgP + mMgI;
+  MPi = mPiP + mPiI;
+  //6
+  Vew0 + Vpw0 + Viw0 = Vew + Vpw + Viw;
+  //1
+  //donan
+  C_ClE / C_ClP = 0.92 * (HCO3E / HCO3P);
+  C_ClI / C_ClP = 0.92 * (HCO3I / HCO3P);
+  //C_ClE / C_ClP = (HCO3E / HCO3P);
+  //C_ClI / C_ClP = (HCO3I / HCO3P);
+  C_ClI / C_ClP = C_NaP / C_NaI;
+  C_ClI / C_ClP = C_KP / C_KI;
+  (C_ClI / C_ClP) ^ 2 = C_CaP / C_CaI;
+  (C_ClI / C_ClP) ^ 2 = C_MgP / C_MgI;
+  (C_ClI / C_ClP) ^ abs(ZPi) = C_PiI / C_PiP;
+  //7
+  //elektroneutralita
+  C_NaP + C_KP + 2 * C_CaP + 2 * C_MgP - C_ClP - HCO3P - 2 * CO3P + ZPi * C_PiP + ZAlb * C_AlbP + ZimP * imP = 0;
+  C_NaI + C_KI + 2 * C_CaI + 2 * C_MgI - C_ClI - HCO3I - 2 * CO3I + ZPi * C_PiI + ZAlb * C_AlbI + ZimI * imI = 0;
+  C_NaE + C_KE - C_ClE - HCO3E - 2 * CO3E + ZHb * C_Hb + ZDPG * C_DPG + ZATP * C_ATP + ZGSH * C_GSH + ZimE * imE = 0;
+  //3
+  //osmoticka rovnovaha
+  0.93 * (C_NaP - C_NaI) + 0.93 * (C_KP - C_KI) + 0.93 * (C_ClP - C_ClI) + C_CaP - C_CaI + C_MgP - C_MgI + 0.93 * (HCO3P - HCO3I) + 0.93 * (CO3P - CO3I) + 0.93 * (C_PiP - C_PiI) + C_AlbP - C_AlbI + C_imP - C_imI = 0;
+  0.93 * (C_NaP - C_NaE) + 0.93 * (C_KP - C_KE) + 0.93 * (C_ClP - C_ClE) + 0.93 * (C_PiP - C_PiE) + C_imP - C_imE + C_CaP + C_MgP + C_AlbP - fiHb * C_Hb - C_DPG - C_ATP - C_GSH = 0;
+  //2
+  //ostatni
+  //Z
+  ZHb = 15.6 - 23 * (10 ^ (pHE - 6.69) / (1 + 10 ^ (pHE - 6.69))) - 4 * (10 ^ (pHE - 7.89) / (1 + 10 ^ (pHE - 7.89))) + 1.5 * ((1 - 0.75) / 0.75);
+  ZDPG = (-3) - 1 * (10 ^ (pHE - 7.56) / (1 + 10 ^ (pHE - 7.56))) - 1 * (10 ^ (pHE - 7.32) / (1 + 10 ^ (pHE - 7.32)));
+  ZATP = (-3) - 1 * (10 ^ (pHE - 6.8) / (1 + 10 ^ (pHE - 6.8)));
+  ZGSH = (-1) - 1 * (10 ^ (pHE - 8.54) / (1 + 10 ^ (pHE - 8.54))) - 1 * (10 ^ (pHE - 9.42) / (1 + 10 ^ (pHE - 9.42)));
+  ZPi = (-1) - 10 ^ (pHP - 6.87) / (1 + 10 ^ (pHP - 6.87));
+  ZAlb = (-10.7) - 16 * (10 ^ (pHP - 7.42) / (1 + 10 ^ (pHP - 7.42)));
+  fiHb = 1 + 0.115 * C_Hb + 0.0256 * C_Hb ^ 2;
+  //karbonaty a pH
+  HCO3E = 0.026 * PCO2 * 10 ^ (pHE - 6.11);
+  CO3E = HCO3E * 10 ^ (pHE - 10.2);
+  HCO3P = 0.0306 * PCO2 * 10 ^ (pHP - 6.11);
+  CO3P = HCO3P * 10 ^ (pHP - 10.2);
+  HCO3I = 0.0326 * PCO2 * 10 ^ (pHI - 6.11);
+  CO3I = HCO3I * 10 ^ (pHI - 10.2);
+  //C
+  C_NaE = m0NaE / Vew;
+  C_KE = m0KE / Vew;
+  C_ClE = mClE / Vew;
+  C_Hb = m0Hb / Vew;
+  C_DPG = m0DPG / Vew;
+  C_ATP = m0ATP / Vew;
+  C_GSH = m0GSH / Vew;
+  C_imE = m0imE / Vew;
+  C_PiE = m0PiE / Vew;
+  //
+  C_NaP = mNaP / Vpw;
+  C_NaI = mNaI / Viw;
+  C_KP = mKP / Vpw;
+  C_KI = mKI / Viw;
+  C_CaP = mCaP / Vpw;
+  C_CaI = mCaI / Viw;
+  C_MgP = mMgP / Vpw;
+  C_MgI = mMgI / Viw;
+  C_ClP = mClP / Vpw;
+  C_ClI = mClI / Viw;
+  C_PiP = mPiP / Vpw;
+  C_PiI = mPiI / Viw;
+  C_AlbP = m0AlbP / Vpw;
+  C_AlbI = m0AlbI / Viw;
+  C_imP = m0imP / Vpw;
+  C_imI = m0imI / Viw;
+  //
+  BE = (1 - 0.023 * C_Hb) * (HCO3P - 24.4 + (2.3 * C_Hb + 7.7) * (pHP - 7.4));
+  SIDp = C_NaP + C_KP + 2 * C_CaP + 2 * C_MgP - C_ClP;
+  SIDi = C_NaI + C_KI + 2 * C_CaI + 2 * C_MgI - C_ClI;
+  SIDe = C_NaE + C_KE - C_ClP;
+  SIDp2 = -((-HCO3P) - 2 * CO3P + ZPi * C_PiP + ZAlb * C_AlbP);
+  fH = (Vew + Vew / 0.73 * (1 - 0.73)) / (Vew + Vew / 0.73 * (1 - 0.73) + Vpw + Vpw / 0.94 * (1 - 0.94));
+  fB = Vblood / (Vblood + Vint);
+  SID = (1 - (1 - HCO3E / HCO3P) * fH * fB) * HCO3P + (1 - fH * fB) * (C_AlbP * (8 * pHP - 41) + C_PiP * (0.3 * pHP - 0.4)) + C_Hb * fB * (10.2 * pHP - 73.6) + C_DPG * fH * fB * (0.7 * pHP - 0.5);
+  //  SID=(1-(1-(HCO3E/HCO3P))*((Vew+(Vew/0.73*(1-0.73)))/((Vew+(Vew/0.73*(1-0.73))))+(Vpw+(Vpw/0.94*(1-0.94))*(Vblood/(Vblood+Vint)))*HCO3P+(1-((Vew+(Vew/0.73*(1-0.73)))/((Vew+(Vew/0.73*(1-0.73))))*(Vblood/(Vblood+Vint)))
+  annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})));
+end IPE7_ven;
+"));
+  end IPE7_ven_units1;
 
   model IPE8
     parameter Real NaE = 10;
@@ -2844,7 +3089,7 @@ package IPE_rovnice
   end IPE11_PaCO;
 
   model IPE13_BE
-  
+
   //model IPE12_promenyPHE2
     //vychozi koncentrace iontu[mmol/l]
     //erytrocyty
@@ -3107,10 +3352,9 @@ package IPE_rovnice
     fH = (Vew + Vew / few * (1 - few)) / (Vew + Vew / few * (1 - few) + Vpw + Vpw / few * (1 - few));
     fB = Vblood / (Vblood + Vint);
     SID = (1 - (1 - HCO3E / HCO3P) * fH * fB) * HCO3P + (1 - fH * fB) * (C_AlbP * (8 * pHP - 41) + C_PiP * (0.3 * pHP - 0.4)) + C_Hb * fB * (10.2 * pHP - 73.6) + C_DPG * fH * fB * (0.7 * pHP - 0.5);
-    annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})));
   //end IPE12_promenyPHE2;
+    annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})));
   end IPE13_BE;
-  
 
   //model IPE12_promenyPHE
   model IPE12_promenyPHE
@@ -3287,38 +3531,38 @@ package IPE_rovnice
     pHE = 7 + time;
     rCl = C_ClE / C_ClP;
     rHCO3 = HCO3E / HCO3P;
-//zachovani hmoty
+    //zachovani hmoty
     MCl = mClE + mClP + mClI;
     MNa = mNaP + mNaI;
     MK = mKP + mKI;
     MCa = mCaP + mCaI;
     MMg = mMgP + mMgI;
     MPi = mPiP + mPiI;
-//6
+    //6
     Vew0 + Vpw0 + Viw0 = Vew + Vpw + Viw;
-//1
-//donan
+    //1
+    //donan
     C_ClE / C_ClP = 0.92 * (HCO3E / HCO3P);
     C_ClI / C_ClP = 0.92 * (HCO3I / HCO3P);
-//C_ClE / C_ClP = (HCO3E / HCO3P);
-//C_ClI / C_ClP = (HCO3I / HCO3P);
+    //C_ClE / C_ClP = (HCO3E / HCO3P);
+    //C_ClI / C_ClP = (HCO3I / HCO3P);
     C_ClI / C_ClP = C_NaP / C_NaI;
     C_ClI / C_ClP = C_KP / C_KI;
     (C_ClI / C_ClP) ^ 2 = C_CaP / C_CaI;
     (C_ClI / C_ClP) ^ 2 = C_MgP / C_MgI;
     (C_ClI / C_ClP) ^ abs(ZPi) = C_PiI / C_PiP;
-//7
-//elektroneutralita
+    //7
+    //elektroneutralita
     C_NaP + C_KP + 2 * C_CaP + 2 * C_MgP - C_ClP - HCO3P - 2 * CO3P + ZPi * C_PiP + ZAlb * C_AlbP + ZimP * imP = 0;
     C_NaI + C_KI + 2 * C_CaI + 2 * C_MgI - C_ClI - HCO3I - 2 * CO3I + ZPi * C_PiI + ZAlb * C_AlbI + ZimI * imI = 0;
     C_NaE + C_KE - C_ClE - HCO3E - 2 * CO3E + ZHb * C_Hb + ZDPG * C_DPG + ZATP * C_ATP + ZGSH * C_GSH + ZimE * imE = 0;
-//3
-//osmoticka rovnovaha
+    //3
+    //osmoticka rovnovaha
     fi * (C_NaP - C_NaI) + fi * (C_KP - C_KI) + fi * (C_ClP - C_ClI) + C_CaP - C_CaI + C_MgP - C_MgI + fi * (HCO3P - HCO3I) + fi * (CO3P - CO3I) + fi * (C_PiP - C_PiI) + C_AlbP - C_AlbI + C_imP - C_imI = 0;
     fi * (C_NaP - C_NaE) + fi * (C_KP - C_KE) + fi * (C_ClP - C_ClE) + fi * (C_PiP - C_PiE) + C_imP - C_imE + C_CaP + C_MgP + C_AlbP - fiHb * C_Hb - C_DPG - C_ATP - C_GSH = 0;
-//2
-//ostatni
-//Z
+    //2
+    //ostatni
+    //Z
     ZHb = 15.6 - 23 * (10 ^ (pHE - 6.69) / (1 + 10 ^ (pHE - 6.69))) - 4 * (10 ^ (pHE - 7.89) / (1 + 10 ^ (pHE - 7.89))) + 1.5 * ((1 - HbSat) / HbSat);
     ZDPG = (-3) - 1 * (10 ^ (pHE - 7.56) / (1 + 10 ^ (pHE - 7.56))) - 1 * (10 ^ (pHE - 7.32) / (1 + 10 ^ (pHE - 7.32)));
     ZATP = (-3) - 1 * (10 ^ (pHE - 6.8) / (1 + 10 ^ (pHE - 6.8)));
@@ -3326,14 +3570,14 @@ package IPE_rovnice
     ZPi = (-1) - 10 ^ (pHP - 6.87) / (1 + 10 ^ (pHP - 6.87));
     ZAlb = (-10.7) - 16 * (10 ^ (pHP - 7.42) / (1 + 10 ^ (pHP - 7.42)));
     fiHb = 1 + 0.115 * C_Hb + 0.0256 * C_Hb ^ 2;
-//karbonaty a pH
+    //karbonaty a pH
     HCO3E = 0.026 * PaCO2 * 10 ^ (pHE - 6.11);
     CO3E = HCO3E * 10 ^ (pHE - 10.2);
     HCO3P = 0.0306 * PaCO2 * 10 ^ (pHP - 6.11);
     CO3P = HCO3P * 10 ^ (pHP - 10.2);
     HCO3I = 0.0326 * PaCO2 * 10 ^ (pHI - 6.11);
     CO3I = HCO3I * 10 ^ (pHI - 10.2);
-//C
+    //C
     C_NaE = m0NaE / Vew;
     C_KE = m0KE / Vew;
     C_ClE = mClE / Vew;
@@ -3343,7 +3587,7 @@ package IPE_rovnice
     C_GSH = m0GSH / Vew;
     C_imE = m0imE / Vew;
     C_PiE = m0PiE / Vew;
-//
+    //
     C_NaP = mNaP / Vpw;
     C_NaI = mNaI / Viw;
     C_KP = mKP / Vpw;
@@ -3360,7 +3604,7 @@ package IPE_rovnice
     C_AlbI = m0AlbI / Viw;
     C_imP = m0imP / Vpw;
     C_imI = m0imI / Viw;
-//
+    //
     BE = (1 - 0.023 * C_Hb) * (HCO3P - 24.4 + (2.3 * C_Hb + 7.7) * (pHP - 7.4));
     BE2 = (1 - 0.023 * 9) * (HCO3P - 24.4 + (2.3 * 9 + 7.7) * (pHP - 7.4));
     BE3 = 0.93 * (HCO3P - 24.4 + 14.8 * (pHP - 7.4));
@@ -3374,6 +3618,244 @@ package IPE_rovnice
     annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})));
   end IPE12_promenyPHE;
   //end IPE12_promenyPHE;
-  
-  annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})));
+
+  model IPE7_ven
+  //default
+    parameter Real NaE = 10;
+    parameter Real KE = 99;
+    parameter Real ClE = 55.3;
+    parameter Real Hb = 5.3;
+    parameter Real DPG = 4.4;
+    parameter Real ATP = 1.8;
+    parameter Real GSH = 2.2;
+    parameter Real imE = 95.9;
+    parameter Real PiE = 0.67;
+    //
+    parameter Real NaP = 141;
+    parameter Real NaI = 142;
+    parameter Real KP = 4.2;
+    parameter Real KI = 4.14;
+    parameter Real CaP = 2.3;
+    parameter Real CaI = 2.2;
+    parameter Real MgP = 0.8;
+    parameter Real MgI = 0.75;
+    parameter Real ClP = 104;
+    parameter Real ClI = 118;
+    parameter Real PiP = 1.16;
+    parameter Real PiI = 1.2;
+    parameter Real AlbP = 0.65;
+    parameter Real AlbI = 0.19;
+    parameter Real imP = 21.5;
+    parameter Real imI = 20;
+    //
+    parameter Real ZimE = 0.02;
+    parameter Real ZimI = 0.012;
+    parameter Real ZimP = -0.2;
+    //
+    parameter Real Vblood = 1;
+    parameter Real Vint = 2;
+    parameter Real PaCO2 = 46;
+    //
+    //
+    parameter Real Vew0 = 0.44 * 0.73 * Vblood;
+    parameter Real Vpw0 = (1 - 0.44) * 0.94 * Vblood;
+    parameter Real Viw0 = Vint;
+    //
+    parameter Real m0NaE = NaE * Vew0;
+    parameter Real m0KE = KE * Vew0;
+    parameter Real m0ClE = ClE * Vew0;
+    parameter Real m0Hb = Hb * Vew0;
+    parameter Real m0DPG = DPG * Vew0;
+    parameter Real m0ATP = ATP * Vew0;
+    parameter Real m0GSH = GSH * Vew0;
+    parameter Real m0imE = imE * Vew0;
+    parameter Real m0PiE = PiE * Vew0;
+    //
+    parameter Real m0NaP = NaP * Vpw0;
+    parameter Real m0NaI = NaI * Viw0;
+    parameter Real m0KP = KP * Vpw0;
+    parameter Real m0KI = KI * Viw0;
+    parameter Real m0CaP = CaP * Vpw0;
+    parameter Real m0CaI = CaI * Viw0;
+    parameter Real m0MgP = MgP * Vpw0;
+    parameter Real m0MgI = MgI * Viw0;
+    parameter Real m0ClP = ClP * Vpw0;
+    parameter Real m0ClI = ClI * Viw0;
+    parameter Real m0PiP = PiP * Vpw0;
+    parameter Real m0PiI = PiI * Viw0;
+    parameter Real m0AlbP = AlbP * Vpw0;
+    parameter Real m0AlbI = AlbI * Viw0;
+    parameter Real m0imP = imP * Vpw0;
+    parameter Real m0imI = imI * Viw0;
+    //celkovy mnozstvi
+    parameter Real MCl = m0ClE + m0ClP + m0ClI;
+    parameter Real MNa = m0NaP + m0NaI;
+    parameter Real MK = m0KP + m0KI;
+    parameter Real MCa = m0CaP + m0CaI;
+    parameter Real MMg = m0MgP + m0MgI;
+    parameter Real MPi = m0PiP + m0PiI;
+    //mobilni ionty
+    Real mClE;
+    Real mClP(start = m0ClP);
+    Real mClI;
+    Real mNaP;
+    Real mNaI;
+    Real mKP(start = m0KP);
+    Real mKI(start = m0KI);
+    Real mCaP;
+    Real mCaI(start = m0CaI);
+    Real mMgP(start = m0MgP);
+    Real mMgI(start = m0MgI);
+    Real mPiP(start = m0PiP);
+    Real mPiI(start = m0PiI);
+    //13
+    Real Vew(start = Vew0);
+    Real Vpw(start = Vpw0);
+    Real Viw(start = Viw0);
+    //3
+    Real HCO3E;
+    Real HCO3P;
+    Real HCO3I;
+    //3
+    //ostatni
+    //pH
+    Real pHE(start = 7.22);
+    Real pHP(start = 7.4);
+    Real pHI(start = 7.39);
+    //Z
+    Real ZPi;
+    Real ZAlb;
+    Real ZHb;
+    Real ZDPG;
+    Real ZATP;
+    Real ZGSH;
+    Real fiHb;
+    //karbonaty
+    Real CO3E;
+    Real CO3P;
+    Real CO3I;
+    //C
+    Real C_NaE(start = NaE);
+    Real C_KE(start = KE);
+    Real C_ClE(start = ClE);
+    Real C_Hb(start = Hb);
+    Real C_DPG(start = DPG);
+    Real C_ATP(start = ATP);
+    Real C_GSH(start = GSH);
+    Real C_imE(start = imE);
+    Real C_PiE(start = PiE);
+    //
+    Real C_NaP(start = NaP);
+    Real C_NaI(start = NaI);
+    Real C_KP(start = KP);
+    Real C_KI(start = KI);
+    Real C_CaP(start = CaP);
+    Real C_CaI(start = CaI);
+    Real C_MgP(start = MgP);
+    Real C_MgI(start = MgI);
+    Real C_ClP(start = ClP);
+    Real C_ClI(start = ClI);
+    Real C_PiP(start = PiP);
+    Real C_PiI(start = PiI);
+    Real C_AlbP(start = AlbP);
+    Real C_AlbI(start = AlbI);
+    Real C_imP(start = imP);
+    Real C_imI(start = imI);
+    //
+    Real BE;
+    Real SIDp;
+    Real SIDe;
+    Real SIDi;
+    Real SIDp2;
+    Real SID;
+    Real fH;
+    Real fB;
+  equation
+    //zachovani hmoty
+    MCl = mClE + mClP + mClI;
+    MNa = mNaP + mNaI;
+    MK = mKP + mKI;
+    MCa = mCaP + mCaI;
+    MMg = mMgP + mMgI;
+    MPi = mPiP + mPiI;
+    //6
+    Vew0 + Vpw0 + Viw0 = Vew + Vpw + Viw;
+    //1
+    //donan
+    C_ClE / C_ClP = 0.92 * (HCO3E / HCO3P);
+    C_ClI / C_ClP = 0.92 * (HCO3I / HCO3P);
+    //C_ClE / C_ClP = (HCO3E / HCO3P);
+    //C_ClI / C_ClP = (HCO3I / HCO3P);
+    C_ClI / C_ClP = C_NaP / C_NaI;
+    C_ClI / C_ClP = C_KP / C_KI;
+    (C_ClI / C_ClP) ^ 2 = C_CaP / C_CaI;
+    (C_ClI / C_ClP) ^ 2 = C_MgP / C_MgI;
+    (C_ClI / C_ClP) ^ abs(ZPi) = C_PiI / C_PiP;
+    //7
+    //elektroneutralita
+    C_NaP + C_KP + 2 * C_CaP + 2 * C_MgP - C_ClP - HCO3P - 2 * CO3P + ZPi * C_PiP + ZAlb * C_AlbP + ZimP * imP = 0;
+    C_NaI + C_KI + 2 * C_CaI + 2 * C_MgI - C_ClI - HCO3I - 2 * CO3I + ZPi * C_PiI + ZAlb * C_AlbI + ZimI * imI = 0;
+    C_NaE + C_KE - C_ClE - HCO3E - 2 * CO3E + ZHb * C_Hb + ZDPG * C_DPG + ZATP * C_ATP + ZGSH * C_GSH + ZimE * imE = 0;
+    //3
+    //osmoticka rovnovaha
+    0.93 * (C_NaP - C_NaI) + 0.93 * (C_KP - C_KI) + 0.93 * (C_ClP - C_ClI) + C_CaP - C_CaI + C_MgP - C_MgI + 0.93 * (HCO3P - HCO3I) + 0.93 * (CO3P - CO3I) + 0.93 * (C_PiP - C_PiI) + C_AlbP - C_AlbI + C_imP - C_imI = 0;
+    0.93 * (C_NaP - C_NaE) + 0.93 * (C_KP - C_KE) + 0.93 * (C_ClP - C_ClE) + 0.93 * (C_PiP - C_PiE) + C_imP - C_imE + C_CaP + C_MgP + C_AlbP - fiHb * C_Hb - C_DPG - C_ATP - C_GSH = 0;
+    //2
+    //ostatni
+    //Z
+    ZHb = 15.6 - 23 * (10 ^ (pHE - 6.69) / (1 + 10 ^ (pHE - 6.69))) - 4 * (10 ^ (pHE - 7.89) / (1 + 10 ^ (pHE - 7.89))) + 1.5 * ((1 - 0.75) / 0.75);
+    ZDPG = (-3) - 1 * (10 ^ (pHE - 7.56) / (1 + 10 ^ (pHE - 7.56))) - 1 * (10 ^ (pHE - 7.32) / (1 + 10 ^ (pHE - 7.32)));
+    ZATP = (-3) - 1 * (10 ^ (pHE - 6.8) / (1 + 10 ^ (pHE - 6.8)));
+    ZGSH = (-1) - 1 * (10 ^ (pHE - 8.54) / (1 + 10 ^ (pHE - 8.54))) - 1 * (10 ^ (pHE - 9.42) / (1 + 10 ^ (pHE - 9.42)));
+    ZPi = (-1) - 10 ^ (pHP - 6.87) / (1 + 10 ^ (pHP - 6.87));
+    ZAlb = (-10.7) - 16 * (10 ^ (pHP - 7.42) / (1 + 10 ^ (pHP - 7.42)));
+    fiHb = 1 + 0.115 * C_Hb + 0.0256 * C_Hb ^ 2;
+    //karbonaty a pH
+    HCO3E = 0.026 * PaCO2 * 10 ^ (pHE - 6.11);
+    CO3E = HCO3E * 10 ^ (pHE - 10.2);
+    HCO3P = 0.0306 * PaCO2 * 10 ^ (pHP - 6.11);
+    CO3P = HCO3P * 10 ^ (pHP - 10.2);
+    HCO3I = 0.0326 * PaCO2 * 10 ^ (pHI - 6.11);
+    CO3I = HCO3I * 10 ^ (pHI - 10.2);
+    //C
+    C_NaE = m0NaE / Vew;
+    C_KE = m0KE / Vew;
+    C_ClE = mClE / Vew;
+    C_Hb = m0Hb / Vew;
+    C_DPG = m0DPG / Vew;
+    C_ATP = m0ATP / Vew;
+    C_GSH = m0GSH / Vew;
+    C_imE = m0imE / Vew;
+    C_PiE = m0PiE / Vew;
+    //
+    C_NaP = mNaP / Vpw;
+    C_NaI = mNaI / Viw;
+    C_KP = mKP / Vpw;
+    C_KI = mKI / Viw;
+    C_CaP = mCaP / Vpw;
+    C_CaI = mCaI / Viw;
+    C_MgP = mMgP / Vpw;
+    C_MgI = mMgI / Viw;
+    C_ClP = mClP / Vpw;
+    C_ClI = mClI / Viw;
+    C_PiP = mPiP / Vpw;
+    C_PiI = mPiI / Viw;
+    C_AlbP = m0AlbP / Vpw;
+    C_AlbI = m0AlbI / Viw;
+    C_imP = m0imP / Vpw;
+    C_imI = m0imI / Viw;
+    //
+    BE = (1 - 0.023 * C_Hb) * (HCO3P - 24.4 + (2.3 * C_Hb + 7.7) * (pHP - 7.4));
+    SIDp = C_NaP + C_KP + 2 * C_CaP + 2 * C_MgP - C_ClP;
+    SIDi = C_NaI + C_KI + 2 * C_CaI + 2 * C_MgI - C_ClI;
+    SIDe = C_NaE + C_KE - C_ClP;
+    SIDp2 = -((-HCO3P) - 2 * CO3P + ZPi * C_PiP + ZAlb * C_AlbP);
+    fH = (Vew + Vew / 0.73 * (1 - 0.73)) / (Vew + Vew / 0.73 * (1 - 0.73) + Vpw + Vpw / 0.94 * (1 - 0.94));
+    fB = Vblood / (Vblood + Vint);
+    SID = (1 - (1 - HCO3E / HCO3P) * fH * fB) * HCO3P + (1 - fH * fB) * (C_AlbP * (8 * pHP - 41) + C_PiP * (0.3 * pHP - 0.4)) + C_Hb * fB * (10.2 * pHP - 73.6) + C_DPG * fH * fB * (0.7 * pHP - 0.5);
+    //  SID=(1-(1-(HCO3E/HCO3P))*((Vew+(Vew/0.73*(1-0.73)))/((Vew+(Vew/0.73*(1-0.73))))+(Vpw+(Vpw/0.94*(1-0.94))*(Vblood/(Vblood+Vint)))*HCO3P+(1-((Vew+(Vew/0.73*(1-0.73)))/((Vew+(Vew/0.73*(1-0.73))))*(Vblood/(Vblood+Vint)))
+    annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})));
+  end IPE7_ven;
+  annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})),
+    uses(Modelica(version="3.2.1")));
 end IPE_rovnice;
