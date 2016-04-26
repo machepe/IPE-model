@@ -238,43 +238,44 @@ package CIPE_rovnice
   end IPE;
 
   model CIPE1
-    parameter Real XE = +43;
-    parameter Real XP = +155;
-    parameter Real XI = +98;
-    parameter Real XC = +1;
+    //adjusted charges to fit the steady state
+    parameter Real XE = 0;//+43;
+    parameter Real XP = 0;//+155;
+    parameter Real XI = 0;//+98;
+    parameter Real XC = 0;//+1;
     //default concentration [mmol/l]
     //erythrocytes
     parameter Real NaE(unit = "mol/m3", displayUnit = "mmol/l") = 13.7;
-    parameter Real KE = 136;
-    parameter Real ClE = 73.2;
-    parameter Real Hb = 5.3;
-    parameter Real DPG = 4.4;
-    parameter Real ATP = 1.8;
-    parameter Real GSH = 2.2;
-    parameter Real imE = 16.8;
-    parameter Real PiE = 0.92;
-    parameter Real LacE = 1.06;
+    parameter Real KE(unit = "mol/m3", displayUnit = "mmol/l") = 136;
+    parameter Real ClE(unit = "mol/m3", displayUnit = "mmol/l") = 73.2;
+    parameter Real Hb(unit = "mol/m3", displayUnit = "mmol/l") = 5.3;
+    parameter Real DPG(unit = "mol/m3", displayUnit = "mmol/l") = 4.4;
+    parameter Real ATP(unit = "mol/m3", displayUnit = "mmol/l") = 1.8;
+    parameter Real GSH(unit = "mol/m3", displayUnit = "mmol/l") = 2.2;
+    parameter Real imE(unit = "mol/m3", displayUnit = "mmol/l") = 16.8;
+    parameter Real PiE(unit = "mol/m3", displayUnit = "mmol/l") = 0.92;
+    parameter Real LacE(unit = "mol/m3", displayUnit = "mmol/l") = 1.06;
     //Plasma and Intersticium
-    parameter Real NaP = 150;
-    parameter Real NaI = 141.2;
-    parameter Real KP = 4.78;
-    parameter Real KI = 4.55;
-    parameter Real CaMgP = 3.3;
-    parameter Real CaMgI = 3;
-    parameter Real ClP = 111;
-    parameter Real ClI = 116.5;
-    parameter Real PiP = 1.23;
-    parameter Real PiI = 1.36;
-    parameter Real AlbP = 43 / 6.65;
-    parameter Real Tpro = 70.4 / 9;
-    parameter Real AlbI = 43 / 6.65;
-    parameter Real LacP = 1.51;
-    parameter Real LacI = 1.69;
+    parameter Real NaP(unit = "mol/m3", displayUnit = "mmol/l") = 150;
+    parameter Real NaI(unit = "mol/m3", displayUnit = "mmol/l") = 141.2;
+    parameter Real KP(unit = "mol/m3", displayUnit = "mmol/l") = 4.78;
+    parameter Real KI(unit = "mol/m3", displayUnit = "mmol/l") = 4.55;
+    parameter Real CaMgP(unit = "mol/m3", displayUnit = "mmol/l") = 3.3;
+    parameter Real CaMgI(unit = "mol/m3", displayUnit = "mmol/l") = 3;
+    parameter Real ClP(unit = "mol/m3", displayUnit = "mmol/l") = 111;
+    parameter Real ClI(unit = "mol/m3", displayUnit = "mmol/l") = 116.5;
+    parameter Real PiP(unit = "mol/m3", displayUnit = "mmol/l") = 1.23;
+    parameter Real PiI(unit = "mol/m3", displayUnit = "mmol/l") = 1.36;
+    parameter Real AlbP(unit = "mol/m3", displayUnit = "mmol/l") = 43 / 66.5;
+    parameter Real Tpro(unit = "mol/m3", displayUnit = "mmol/l") = 70.4 / 90;
+    parameter Real AlbI(unit = "mol/m3", displayUnit = "mmol/l") = (43 / 66.5)/2;
+    parameter Real LacP(unit = "mol/m3", displayUnit = "mmol/l") = 1.51;
+    parameter Real LacI(unit = "mol/m3", displayUnit = "mmol/l") = 1.69;
     //cells
-    parameter Real NaC = 12;
-    parameter Real KC = 141.2;
-    parameter Real ClC = 3.75;
-    parameter Real imC = 129;
+    parameter Real NaC(unit = "mol/m3", displayUnit = "mmol/l") = 12;
+    parameter Real KC(unit = "mol/m3", displayUnit = "mmol/l") = 141.2;
+    parameter Real ClC(unit = "mol/m3", displayUnit = "mmol/l") = 3.75;
+    parameter Real imC(unit = "mol/m3", displayUnit = "mmol/l") = 129;
     parameter Real kNa = 368;
     parameter Real kH = 10;
     //parameter Real imP = 0;
@@ -285,12 +286,12 @@ package CIPE_rovnice
     parameter Real ZimP = -6.04;
     //
     //initial volumes [l]
-    parameter Real Vblood = 5.1;
-    parameter Real Vint = 9.68;
-    parameter Real Vcell = 26.8;
+    parameter Real Vblood(unit="l") = 5.1;
+    parameter Real Vint(unit="l") = 9.68;
+    parameter Real Vcell(unit="l") = 26.8;
     //
     //partial pressure of CO2 [mmHg]
-    parameter Real pCO2 = 46;
+    parameter Real pCO2(unit = "torr") = 46;
     parameter Real fSat = 0.75;
     //
     //Water volumes of erythrcytes, plasma and intersticium
@@ -299,86 +300,86 @@ package CIPE_rovnice
     parameter Real fWp0 = 0.94;
     parameter Real fWi0 = 1;
     parameter Real fWc0 = 1;
-    parameter Real Vew0 = hemat0 * fWe0 * Vblood;
-    parameter Real Vpw0 = (1 - hemat0) * fWp0 * Vblood;
-    parameter Real Viw0 = fWi0 * Vint;
-    parameter Real Vcw0 = Vcell * fWc0;
+    parameter Real Vew0(unit="l") = hemat0 * fWe0 * Vblood;
+    parameter Real Vpw0(unit="l") = (1 - hemat0) * fWp0 * Vblood;
+    parameter Real Viw0(unit="l") = fWi0 * Vint;
+    parameter Real Vcw0(unit="l") = Vcell * fWc0;
     //
     //masses of conserved species [mmol]
     //erythrocytes
-    parameter Real m0NaE = NaE * Vew0;
-    parameter Real m0KE = KE * Vew0;
-    parameter Real m0ClE = ClE * Vew0;
-    parameter Real m0Hb = Hb * Vew0;
-    parameter Real m0DPG = DPG * Vew0;
-    parameter Real m0ATP = ATP * Vew0;
-    parameter Real m0GSH = GSH * Vew0;
-    parameter Real m0imE = imE * Vew0;
-    parameter Real m0PiE = PiE * Vew0;
-    parameter Real m0LacE = LacE * Vew0;
+    parameter Real m0NaE(unit="mmol") = NaE * Vew0;
+    parameter Real m0KE(unit="mmol") = KE * Vew0;
+    parameter Real m0ClE(unit="mmol") = ClE * Vew0;
+    parameter Real m0Hb(unit="mmol") = Hb * Vew0;
+    parameter Real m0DPG(unit="mmol") = DPG * Vew0;
+    parameter Real m0ATP(unit="mmol") = ATP * Vew0;
+    parameter Real m0GSH(unit="mmol") = GSH * Vew0;
+    parameter Real m0imE(unit="mmol") = imE * Vew0;
+    parameter Real m0PiE(unit="mmol") = PiE * Vew0;
+    parameter Real m0LacE(unit="mmol") = LacE * Vew0;
     //plasma and intersticium
-    parameter Real m0NaP = NaP * Vpw0;
-    parameter Real m0NaI = NaI * Viw0;
-    parameter Real m0KP = KP * Vpw0;
-    parameter Real m0KI = KI * Viw0;
-    parameter Real m0CaMgP = CaMgP * Vpw0;
-    parameter Real m0CaMgI = CaMgI * Viw0;
-    parameter Real m0ClP = ClP * Vpw0;
-    parameter Real m0ClI = ClI * Viw0;
-    parameter Real m0PiP = PiP * Vpw0;
-    parameter Real m0PiI = PiI * Viw0;
-    parameter Real m0AlbP = AlbP * Vpw0;
-    parameter Real m0AlbI = AlbI * Viw0;
+    parameter Real m0NaP(unit="mmol") = NaP * Vpw0;
+    parameter Real m0NaI(unit="mmol") = NaI * Viw0;
+    parameter Real m0KP(unit="mmol") = KP * Vpw0;
+    parameter Real m0KI(unit="mmol") = KI * Viw0;
+    parameter Real m0CaMgP(unit="mmol") = CaMgP * Vpw0;
+    parameter Real m0CaMgI(unit="mmol") = CaMgI * Viw0;
+    parameter Real m0ClP(unit="mmol") = ClP * Vpw0;
+    parameter Real m0ClI(unit="mmol") = ClI * Viw0;
+    parameter Real m0PiP(unit="mmol") = PiP * Vpw0;
+    parameter Real m0PiI(unit="mmol") = PiI * Viw0;
+    parameter Real m0AlbP(unit="mmol") = AlbP * Vpw0;
+    parameter Real m0AlbI(unit="mmol") = AlbI * Viw0;
     //parameter Real m0imP = imP * Vpw0;
     //parameter Real m0imI = imI * Viw0;
-    parameter Real m0LacP = LacP * Vpw0;
-    parameter Real m0LacI = LacI * Viw0;
+    parameter Real m0LacP(unit="mmol") = LacP * Vpw0;
+    parameter Real m0LacI(unit="mmol") = LacI * Viw0;
     //
-    parameter Real m0NaC = NaC * Vcw0;
-    parameter Real m0KC = KC * Vcw0;
-    parameter Real m0ClC = ClC * Vcw0;
-    parameter Real m0imC = imC * Vcw0;
+    parameter Real m0NaC(unit="mmol") = NaC * Vcw0;
+    parameter Real m0KC(unit="mmol") = KC * Vcw0;
+    parameter Real m0ClC(unit="mmol") = ClC * Vcw0;
+    parameter Real m0imC(unit="mmol") = imC * Vcw0;
     //total masses of mobile ions [mmol]
-    parameter Real MCl = m0ClE + m0ClP + m0ClI + m0ClC;
-    parameter Real MNa = m0NaP + m0NaI + m0NaC;
-    parameter Real MK = m0KP + m0KI + m0KC;
-    parameter Real MCaMg = m0CaMgP + m0CaMgI;
-    parameter Real MPi = m0PiE + m0PiP + m0PiI;
-    parameter Real MLac = m0LacE + m0LacP + m0LacI;
+    parameter Real MCl(unit="mmol") = m0ClE + m0ClP + m0ClI + m0ClC;
+    parameter Real MNa(unit="mmol") = m0NaP + m0NaI + m0NaC;
+    parameter Real MK(unit="mmol") = m0KP + m0KI + m0KC;
+    parameter Real MCaMg(unit="mmol") = m0CaMgP + m0CaMgI;
+    parameter Real MPi(unit="mmol") = m0PiE + m0PiP + m0PiI;
+    parameter Real MLac(unit="mmol") = m0LacE + m0LacP + m0LacI;
     //after equilibrium
     //masses of mobile ions
-    Real mClE(start = m0ClE);
-    Real mClP(start = m0ClP);
-    Real mClI(start = m0ClI);
-    Real mNaP(start = m0NaP);
-    Real mNaI(start = m0NaI);
-    Real mKP(start = m0KP);
-    Real mKI(start = m0KI);
-    Real mCaMgP(start = m0CaMgP);
-    Real mCaMgI(start = m0CaMgI);
-    Real mPiE(start = m0PiE);
-    Real mPiP(start = m0PiP);
-    Real mPiI(start = m0PiI);
-    Real mLacE(start = m0LacE);
-    Real mLacP(start = m0LacP);
-    Real mLacI(start = m0LacI);
-    Real mNaC(start = m0NaC);
-    Real mKC(start = m0KC);
-    Real mClC(start = m0ClC);
+    Real mClE(unit="mmol", start = m0ClE);
+    Real mClP(unit="mmol", start = m0ClP);
+    Real mClI(unit="mmol", start = m0ClI);
+    Real mNaP(unit="mmol", start = m0NaP);
+    Real mNaI(unit="mmol", start = m0NaI);
+    Real mKP(unit="mmol", start = m0KP);
+    Real mKI(unit="mmol", start = m0KI);
+    Real mCaMgP(unit="mmol", start = m0CaMgP);
+    Real mCaMgI(unit="mmol", start = m0CaMgI);
+    Real mPiE(unit="mmol", start = m0PiE);
+    Real mPiP(unit="mmol", start = m0PiP);
+    Real mPiI(unit="mmol", start = m0PiI);
+    Real mLacE(unit="mmol", start = m0LacE);
+    Real mLacP(unit="mmol", start = m0LacP);
+    Real mLacI(unit="mmol", start = m0LacI);
+    Real mNaC(unit="mmol", start = m0NaC);
+    Real mKC(unit="mmol", start = m0KC);
+    Real mClC(unit="mmol", start = m0ClC);
     //18 variables
     //
     //volumes of compartments
-    Real Vew(start = Vew0);
-    Real Vpw(start = Vpw0);
-    Real Viw(start = Viw0);
-    Real Vcw(start = Vcw0);
+    Real Vew(unit="l", start = Vew0);
+    Real Vpw(unit="l", start = Vpw0);
+    Real Viw(unit="l", start = Viw0);
+    Real Vcw(unit="l", start = Vcw0);
     //4 variables
     //
     //concentration of bicarbonates [mmol/l]
-    Real HCO3E(start = 20);
-    Real HCO3P(start = 27.7);
-    Real HCO3I(start = 29.2);
-    Real HCO3C(start = 8.35);
+    Real HCO3E(unit="mmol/l", start = 20);
+    Real HCO3P(unit="mmol/l", start = 27.7);
+    Real HCO3I(unit="mmol/l", start = 29.2);
+    Real HCO3C(unit="mmol/l", start = 8.35);
     //4 variables
     //
     //pH
@@ -399,46 +400,46 @@ package CIPE_rovnice
     Real fiHb;
     Real ZimC;
     //carbonates
-    Real CO3E;
-    Real CO3P;
-    Real CO3I;
-    Real CO3C;
+    Real CO3E(unit="mmol/l");
+    Real CO3P(unit="mmol/l");
+    Real CO3I(unit="mmol/l");
+    Real CO3C(unit="mmol/l");
     //concentrations of all species [mmol/l]
-    Real C_NaE(start = NaE);
-    Real C_KE(start = KE);
-    Real C_ClE(start = ClE);
-    Real C_Hb(start = Hb);
-    Real C_DPG(start = DPG);
-    Real C_ATP(start = ATP);
-    Real C_GSH(start = GSH);
-    Real C_imE(start = imE);
-    Real C_PiE(start = PiE);
-    Real C_LacE(start = LacE);
+    Real C_NaE(unit="mmol/l", start = NaE);
+    Real C_KE(unit="mmol/l", start = KE);
+    Real C_ClE(unit="mmol/l", start = ClE);
+    Real C_Hb(unit="mmol/l", start = Hb);
+    Real C_DPG(unit="mmol/l", start = DPG);
+    Real C_ATP(unit="mmol/l", start = ATP);
+    Real C_GSH(unit="mmol/l", start = GSH);
+    Real C_imE(unit="mmol/l", start = imE);
+    Real C_PiE(unit="mmol/l", start = PiE);
+    Real C_LacE(unit="mmol/l", start = LacE);
     //
-    Real C_NaP(start = NaP);
-    Real C_NaI(start = NaI);
-    Real C_KP(start = KP);
-    Real C_KI(start = KI);
-    Real C_CaMgP(start = CaMgP);
-    Real C_CaMgI(start = CaMgI);
-    Real C_ClP(start = ClP);
-    Real C_ClI(start = ClI);
-    Real C_PiP(start = PiP);
-    Real C_PiI(start = PiI);
-    Real C_AlbP(start = AlbP);
-    Real C_Tpro(start = Tpro);
-    Real C_AlbI(start = AlbI);
+    Real C_NaP(unit="mmol/l", start = NaP);
+    Real C_NaI(unit="mmol/l", start = NaI);
+    Real C_KP(unit="mmol/l", start = KP);
+    Real C_KI(unit="mmol/l", start = KI);
+    Real C_CaMgP(unit="mmol/l", start = CaMgP);
+    Real C_CaMgI(unit="mmol/l", start = CaMgI);
+    Real C_ClP(unit="mmol/l", start = ClP);
+    Real C_ClI(unit="mmol/l", start = ClI);
+    Real C_PiP(unit="mmol/l", start = PiP);
+    Real C_PiI(unit="mmol/l", start = PiI);
+    Real C_AlbP(unit="mmol/l", start = AlbP);
+    Real C_Tpro(unit="mmol/l", start = Tpro);
+    Real C_AlbI(unit="mmol/l", start = AlbI);
     //Real C_imP(start = imP);
     //Real C_imI(start = imI);
-    Real C_LacP(start = LacP);
-    Real C_LacI(start = LacI);
-    Real C_HI(start = 10 ^ (-7.39));
+    Real C_LacP(unit="mmol/l", start = LacP);
+    Real C_LacI(unit="mmol/l", start = LacI);
+    Real C_HI(unit="mmol/l", start = 10 ^ (-7.39));
     //
-    Real C_NaC(start = NaC);
-    Real C_KC(start = KC);
-    Real C_ClC(start = ClC);
-    Real C_imC(start = imC);
-    Real C_HC(start = 10 ^ (-6.9));
+    Real C_NaC(unit="mmol/l", start = NaC);
+    Real C_KC(unit="mmol/l", start = KC);
+    Real C_ClC(unit="mmol/l", start = ClC);
+    Real C_imC(unit="mmol/l", start = imC);
+    Real C_HC(unit="mmol/l", start = 10 ^ (-6.9));
     //
     Real Oe;
     Real Oc;
@@ -564,7 +565,7 @@ package CIPE_rovnice
     C_imC = m0imC / Vcw;
     //
     Oe = 0.93 * C_NaE + 0.93 * C_KE + 0.93 * C_ClE + 0.93 * C_PiE + fiHb * C_Hb + C_DPG + C_ATP + C_GSH + 0.93 * C_LacE + C_imE;
-    Op = 0.93 * C_NaP + 0.93 * C_KP + 0.93 * C_ClP + 0.93 * C_CaMgP + 0.93 * HCO3P + 0.93 * CO3P + 0.93 * C_PiP + C_AlbP + C_LacP;
+    Op = 0.93 * C_NaP + 0.93 * C_KP + 0.93 * C_ClP + 0.93 * C_CaMgP + 0.93 * HCO3P + 0.93 * CO3P + 0.93 * C_PiP + C_Tpro + C_LacP;
     Oi = 0.93 * C_NaI + 0.93 * C_KI + 0.93 * C_ClI + 0.93 * C_CaMgI + 0.93 * HCO3I + 0.93 * CO3I + 0.93 * C_PiI + C_AlbI + C_LacI;
     Oc = 0.93 * C_NaC + 0.93 * C_KC + 0.93 * C_ClC + 0.93 * HCO3C + 0.93 * CO3C + C_imC;
     PrB = kB * (Vew / 0.73 + Vpw / 0.94 - Vblood) / Vblood;
