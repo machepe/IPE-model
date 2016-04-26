@@ -239,10 +239,10 @@ package CIPE_rovnice
 
   model CIPE1
     //adjusted charges to fit the steady state
-    parameter Real XE = 0;//+43;
-    parameter Real XP = 0;//+155;
-    parameter Real XI = 0;//+98;
-    parameter Real XC = 0;//+1;
+    parameter Real XE = 0;
+    parameter Real XP = 0;
+    parameter Real XI = 0;
+    parameter Real XC = 0;
     //default concentration [mmol/l]
     //erythrocytes
     parameter Real NaE(unit = "mol/m3", displayUnit = "mmol/l") = 13.7;
