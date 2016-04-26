@@ -42,13 +42,13 @@ package CIPE_rovnice
     parameter Real pCO2 = 46;
     //
     //Water volumes of erythrcytes, plasma and intersticium
-    parameter Real hemat0=0.44;
-    parameter Real fWe0=0.73;
-    parameter Real fWp0=0.94;
-    parameter Real fWi0=1;
+    parameter Real hemat0 = 0.44;
+    parameter Real fWe0 = 0.73;
+    parameter Real fWp0 = 0.94;
+    parameter Real fWi0 = 1;
     parameter Real Vew0 = hemat0 * fWe0 * Vblood;
     parameter Real Vpw0 = (1 - hemat0) * fWp0 * Vblood;
-    parameter Real Viw0= fWi0* Vint;
+    parameter Real Viw0 = fWi0 * Vint;
     //
     //masses of conserved species [mmol]
     //erythrocytes
@@ -238,9 +238,13 @@ package CIPE_rovnice
   end IPE;
 
   model CIPE1
+    parameter Real XE = +43;
+    parameter Real XP = +155;
+    parameter Real XI = +98;
+    parameter Real XC = +1;
     //default concentration [mmol/l]
     //erythrocytes
-    parameter Real NaE = 13.7;
+    parameter Real NaE(unit = "mol/m3", displayUnit = "mmol/l") = 13.7;
     parameter Real KE = 136;
     parameter Real ClE = 73.2;
     parameter Real Hb = 5.3;
@@ -249,7 +253,7 @@ package CIPE_rovnice
     parameter Real GSH = 2.2;
     parameter Real imE = 16.8;
     parameter Real PiE = 0.92;
-    parameter Real LacE=1.06;
+    parameter Real LacE = 1.06;
     //Plasma and Intersticium
     parameter Real NaP = 150;
     parameter Real NaI = 141.2;
@@ -261,19 +265,18 @@ package CIPE_rovnice
     parameter Real ClI = 116.5;
     parameter Real PiP = 1.23;
     parameter Real PiI = 1.36;
-    parameter Real AlbP = 43/6.65;
-    parameter Real Tpro=70.4/9;
-    parameter Real AlbI = 43/6.65;
-    parameter Real LacP=1.51;
-    parameter Real LacI=1.69;
+    parameter Real AlbP = 43 / 6.65;
+    parameter Real Tpro = 70.4 / 9;
+    parameter Real AlbI = 43 / 6.65;
+    parameter Real LacP = 1.51;
+    parameter Real LacI = 1.69;
     //cells
-    parameter Real NaC=12;
-    parameter Real KC=141.2;
-    parameter Real ClC=3.75;
-    parameter Real imC=129;
-    parameter Real kNa=368;
-    parameter Real kH=10;
-
+    parameter Real NaC = 12;
+    parameter Real KC = 141.2;
+    parameter Real ClC = 3.75;
+    parameter Real imC = 129;
+    parameter Real kNa = 368;
+    parameter Real kH = 10;
     //parameter Real imP = 0;
     //parameter Real imI = 0;
     //charge [-]
@@ -284,22 +287,22 @@ package CIPE_rovnice
     //initial volumes [l]
     parameter Real Vblood = 5.1;
     parameter Real Vint = 9.68;
-    parameter Real Vcell=26.8;
+    parameter Real Vcell = 26.8;
     //
     //partial pressure of CO2 [mmHg]
     parameter Real pCO2 = 46;
-    parameter Real fSat=0.75;
+    parameter Real fSat = 0.75;
     //
     //Water volumes of erythrcytes, plasma and intersticium
-    parameter Real hemat0=0.4391;
-    parameter Real fWe0=0.73;
-    parameter Real fWp0=0.94;
-    parameter Real fWi0=1;
-    parameter Real fWc0=1;
+    parameter Real hemat0 = 0.4391;
+    parameter Real fWe0 = 0.73;
+    parameter Real fWp0 = 0.94;
+    parameter Real fWi0 = 1;
+    parameter Real fWc0 = 1;
     parameter Real Vew0 = hemat0 * fWe0 * Vblood;
     parameter Real Vpw0 = (1 - hemat0) * fWp0 * Vblood;
-    parameter Real Viw0= fWi0* Vint;
-    parameter Real Vcw0=Vcell*fWc0;
+    parameter Real Viw0 = fWi0 * Vint;
+    parameter Real Vcw0 = Vcell * fWc0;
     //
     //masses of conserved species [mmol]
     //erythrocytes
@@ -312,7 +315,7 @@ package CIPE_rovnice
     parameter Real m0GSH = GSH * Vew0;
     parameter Real m0imE = imE * Vew0;
     parameter Real m0PiE = PiE * Vew0;
-    parameter Real m0LacE=LacE*Vew0;
+    parameter Real m0LacE = LacE * Vew0;
     //plasma and intersticium
     parameter Real m0NaP = NaP * Vpw0;
     parameter Real m0NaI = NaI * Viw0;
@@ -328,40 +331,40 @@ package CIPE_rovnice
     parameter Real m0AlbI = AlbI * Viw0;
     //parameter Real m0imP = imP * Vpw0;
     //parameter Real m0imI = imI * Viw0;
-    parameter Real m0LacP=LacP*Vpw0;
-    parameter Real m0LacI=LacI*Viw0;
+    parameter Real m0LacP = LacP * Vpw0;
+    parameter Real m0LacI = LacI * Viw0;
     //
-    parameter Real m0NaC=NaC*Vcw0;
-    parameter Real m0KC=KC*Vcw0;
-    parameter Real m0ClC=ClC*Vcw0;
-    parameter Real m0imC=imC*Vcw0;
+    parameter Real m0NaC = NaC * Vcw0;
+    parameter Real m0KC = KC * Vcw0;
+    parameter Real m0ClC = ClC * Vcw0;
+    parameter Real m0imC = imC * Vcw0;
     //total masses of mobile ions [mmol]
-    parameter Real MCl = m0ClE + m0ClP + m0ClI+m0ClC;
-    parameter Real MNa = m0NaP + m0NaI+m0NaC;
-    parameter Real MK = m0KP + m0KI+m0KC;
+    parameter Real MCl = m0ClE + m0ClP + m0ClI + m0ClC;
+    parameter Real MNa = m0NaP + m0NaI + m0NaC;
+    parameter Real MK = m0KP + m0KI + m0KC;
     parameter Real MCaMg = m0CaMgP + m0CaMgI;
-    parameter Real MPi= m0PiE+ m0PiP + m0PiI;
-    parameter Real MLac=m0LacE+m0LacP+m0LacI;
+    parameter Real MPi = m0PiE + m0PiP + m0PiI;
+    parameter Real MLac = m0LacE + m0LacP + m0LacI;
     //after equilibrium
     //masses of mobile ions
-    Real mClE(start=m0ClE);
+    Real mClE(start = m0ClE);
     Real mClP(start = m0ClP);
-    Real mClI(start=m0ClI);
-    Real mNaP(start=m0NaP);
-    Real mNaI(start=m0NaI);
+    Real mClI(start = m0ClI);
+    Real mNaP(start = m0NaP);
+    Real mNaI(start = m0NaI);
     Real mKP(start = m0KP);
     Real mKI(start = m0KI);
     Real mCaMgP(start = m0CaMgP);
     Real mCaMgI(start = m0CaMgI);
-    Real mPiE(start=m0PiE);
+    Real mPiE(start = m0PiE);
     Real mPiP(start = m0PiP);
     Real mPiI(start = m0PiI);
-    Real mLacE(start=m0LacE);
-    Real mLacP(start=m0LacP);
-    Real mLacI(start=m0LacI);
-    Real mNaC(start=m0NaC);
-    Real mKC(start=m0KC);
-    Real mClC(start=m0ClC);
+    Real mLacE(start = m0LacE);
+    Real mLacP(start = m0LacP);
+    Real mLacI(start = m0LacI);
+    Real mNaC(start = m0NaC);
+    Real mKC(start = m0KC);
+    Real mClC(start = m0ClC);
     //18 variables
     //
     //volumes of compartments
@@ -372,10 +375,10 @@ package CIPE_rovnice
     //4 variables
     //
     //concentration of bicarbonates [mmol/l]
-    Real HCO3E(start=20);
-    Real HCO3P(start=27.7);
-    Real HCO3I(start=29.2);
-    Real HCO3C(start=8.35);
+    Real HCO3E(start = 20);
+    Real HCO3P(start = 27.7);
+    Real HCO3I(start = 29.2);
+    Real HCO3C(start = 8.35);
     //4 variables
     //
     //pH
@@ -410,7 +413,7 @@ package CIPE_rovnice
     Real C_GSH(start = GSH);
     Real C_imE(start = imE);
     Real C_PiE(start = PiE);
-    Real C_LacE(start=LacE);
+    Real C_LacE(start = LacE);
     //
     Real C_NaP(start = NaP);
     Real C_NaI(start = NaI);
@@ -423,78 +426,83 @@ package CIPE_rovnice
     Real C_PiP(start = PiP);
     Real C_PiI(start = PiI);
     Real C_AlbP(start = AlbP);
-    Real C_Tpro(start=Tpro);
+    Real C_Tpro(start = Tpro);
     Real C_AlbI(start = AlbI);
     //Real C_imP(start = imP);
     //Real C_imI(start = imI);
-    Real C_LacP(start=LacP);
-    Real C_LacI(start=LacI);
-    Real C_HI(start=10^(-7.39));
+    Real C_LacP(start = LacP);
+    Real C_LacI(start = LacI);
+    Real C_HI(start = 10 ^ (-7.39));
     //
-    Real C_NaC(start=NaC);
-    Real C_KC(start=KC);
-    Real C_ClC(start=ClC);
-    Real C_imC(start=imC);
-    Real C_HC(start=10^(-6.9));
+    Real C_NaC(start = NaC);
+    Real C_KC(start = KC);
+    Real C_ClC(start = ClC);
+    Real C_imC(start = imC);
+    Real C_HC(start = 10 ^ (-6.9));
+    //
+    Real Oe;
+    Real Oc;
     Real Op;
     Real Oi;
     Real PrB;
     Real PrI;
-    parameter Real kB=17.5;
+    parameter Real kB = 17.5;
     //Real PrB0;
     //Real PrI0;
-    parameter Real kImh=93;
+    parameter Real kImh = 93;
     Real kItr;
-    parameter Real kIoh=8.3;
-    parameter Real PrItr=9;
-    parameter Real Slm=0.99;
-    parameter Real Ssm=0.5;
-    parameter Real PIP=25.4;
-    parameter Real PII=12.7;
+    parameter Real kIoh = 8.3;
+    parameter Real PrItr = 9;
+    parameter Real Slm = 0.99;
+    parameter Real Ssm = 0.5;
+    parameter Real PIP = 25.4;
+    parameter Real PII = 12.7;
   equation
     //mass conservation
-    MCl = mClE + mClP + mClI+mClC;
-    MNa = mNaP + mNaI+mNaC;
-    MK = mKP + mKI+mKC;
+    MCl = mClE + mClP + mClI + mClC;
+    MNa = mNaP + mNaI + mNaC;
+    MK = mKP + mKI + mKC;
     MCaMg = mCaMgP + mCaMgI;
-    MPi = mPiE+mPiP + mPiI;
-    MLac = mLacE+mLacP+mLacI;
+    MPi = mPiE + mPiP + mPiI;
+    MLac = mLacE + mLacP + mLacI;
     //6 equations
     //
     //water conservation
-    Vew0 + Vpw0 + Viw0+Vcw0 = Vew + Vpw + Viw+Vcw;
+    Vew0 + Vpw0 + Viw0 + Vcw0 = Vew + Vpw + Viw + Vcw;
     //1 equation
     //
     //Donnan equilibrium
     C_ClE / C_ClP = 0.92 * (HCO3E / HCO3P);
-    C_ClE/C_ClP=C_LacE/C_LacP;
-    (C_ClE/C_ClP)^abs(ZPiP)=C_PiE/C_PiP;
+    C_ClE / C_ClP = C_LacE / C_LacP;
+    (C_ClE / C_ClP) ^ abs(ZPiP) = C_PiE / C_PiP;
     C_ClI / C_ClP = 0.92 * (HCO3I / HCO3P);
     C_ClI / C_ClP = C_NaP / C_NaI;
     C_ClI / C_ClP = C_KP / C_KI;
     (C_ClI / C_ClP) ^ 2 = C_CaMgP / C_CaMgI;
     (C_ClI / C_ClP) ^ abs(ZPiP) = C_PiI / C_PiP;
-    C_LacI/C_LacP=C_ClI/C_ClP;
-    C_ClC/C_ClI=C_KI/C_KC;
-    (C_ClI/C_ClC)=kNa*(C_NaC/C_NaI);
-    C_ClI/C_ClC=kH*(C_HC/C_HI);
+    C_LacI / C_LacP = C_ClI / C_ClP;
+    C_ClC / C_ClI = C_KI / C_KC;
+    C_ClI / C_ClC = kNa * (C_NaC / C_NaI);
+    C_ClI / C_ClC = kH * (C_HC / C_HI);
     //12 equations
     //
     //electroneutrality
-    C_NaP + C_KP + 2 * C_CaMgP - C_ClP - HCO3P - 2 * CO3P + ZPiP * C_PiP + ZAlbP * C_AlbP + ZimP*(Vpw0/Vpw) -C_LacP = 0;
-    C_NaI + C_KI + 2 * C_CaMgI - C_ClI - HCO3I - 2 * CO3I + ZPiI * C_PiI + ZAlbI * C_AlbI + ZimI*(Viw0/Viw) -C_LacI= 0;
-    C_NaE + C_KE - C_ClE - HCO3E - 2 * CO3E + ZHb * C_Hb + ZDPG * C_DPG + ZATP * C_ATP + ZGSH * C_GSH + ZimE*(Vew0/Vew)+ZPiE*C_PiE-C_LacE =0;
-    C_NaC+C_KC-C_ClC-HCO3C-2*CO3C-ZimC*(Vcw0/Vcw)=0;
+    C_NaP + C_KP + 2 * C_CaMgP - C_ClP - HCO3P - 2 * CO3P + ZPiP * C_PiP + ZAlbP * C_AlbP + ZimP * (Vpw0 / Vpw) - C_LacP + XP = 0;
+    C_NaI + C_KI + 2 * C_CaMgI - C_ClI - HCO3I - 2 * CO3I + ZPiI * C_PiI + ZAlbI * C_AlbI + ZimI * (Viw0 / Viw) - C_LacI + XI = 0;
+    C_NaE + C_KE - C_ClE - HCO3E - 2 * CO3E + ZHb * C_Hb + ZDPG * C_DPG + ZATP * C_ATP + ZGSH * C_GSH + ZimE * C_imE + ZPiE * C_PiE - C_LacE + XE = 0;
+    C_NaC + C_KC - C_ClC - HCO3C - 2 * CO3C + ZimC * C_imC + XC = 0;
     //4 equations
     //
     //osmotic equilibrium
     //0.93 * (C_NaP - C_NaI) + 0.93 * (C_KP - C_KI) + 0.93 * (C_ClP - C_ClI) + 0.93*(C_CaMgP - C_CaMgI) + 0.93 * (HCO3P - HCO3I) + 0.93 * (CO3P - CO3I) + 0.93 * (C_PiP - C_PiI) + C_AlbP - C_AlbI + C_LacP-C_LacI = 0;
-    0.93 * (C_NaP - C_NaE) + 0.93 * (C_KP - C_KE) + 0.93 * (C_ClP - C_ClE) + 0.93 * (C_PiP - C_PiE) + 0.93*(C_CaMgP) + C_Tpro - fiHb * C_Hb - C_DPG - C_ATP - C_GSH +0.93*(C_LacP-C_LacE)-C_imE-288.9*(Vew0/Vew)=0;
-    0.93*(C_NaI-C_NaC)+0.93*(C_KI-C_KC)+0.93*(C_ClI-C_ClC)+0.93*(HCO3I-HCO3C)+0.93*(CO3I-CO3C)-C_imC+C_AlbI+C_PiI+C_CaMgI+C_LacI-288.4*(Vcw0/Vcw)=0;
+    //0.93 * (C_NaP - C_NaE) + 0.93 * (C_KP - C_KE) + 0.93 * (C_ClP - C_ClE) + 0.93 * (C_PiP - C_PiE) + 0.93*(C_CaMgP) + C_Tpro - fiHb * C_Hb - C_DPG - C_ATP - C_GSH +0.93*(C_LacP-C_LacE)-C_imE-288.9*(Vew0/Vew)=0;
+    //0.93*(C_NaI-C_NaC)+0.93*(C_KI-C_KC)+0.93*(C_ClI-C_ClC)+0.93*(HCO3I-HCO3C)+0.93*(CO3I-CO3C)-C_imC+C_AlbI+C_PiI+C_CaMgI+C_LacI-288.4*(Vcw0/Vcw)=0;
+    Oe = Op;
+    Oi = Oc;
     //2 equations
     //
     //pressure equilibrium
-    PrB-PrI+17.3-Ssm*(PIP-PII)-19.3*Slm*(Op-Oi)=0;
+    PrB - PrI + 17.3 - Ssm * (PIP - PII) - 19.3 * Slm * (Op - Oi) = 0;
     //1 equation
     //
     //pH dependant charges
@@ -508,7 +516,7 @@ package CIPE_rovnice
     ZAlbP = (-10.7) - 16 * (10 ^ (pHP - 7.42) / (1 + 10 ^ (pHP - 7.42)));
     ZAlbI = (-10.7) - 16 * (10 ^ (pHI - 7.42) / (1 + 10 ^ (pHI - 7.42)));
     fiHb = 1 + 0.115 * C_Hb + 0.0256 * C_Hb ^ 2;
-    ZimC = (-1.52)*(10 ^ (pHC - 6.5) / (1 + 10 ^ (pHC - 6.5)));
+    ZimC = (-1.52) * (10 ^ (pHC - 6.5) / (1 + 10 ^ (pHC - 6.5)));
     //carbonates and pH
     HCO3E = 0.026 * pCO2 * 10 ^ (pHE - 6.11);
     CO3E = HCO3E * 10 ^ (pHE - 10.2);
@@ -518,8 +526,8 @@ package CIPE_rovnice
     CO3I = HCO3I * 10 ^ (pHI - 10.2);
     HCO3C = 0.029 * pCO2 * 10 ^ (pHC - 6.11);
     CO3C = HCO3C * 10 ^ (pHC - 10.2);
-    C_HI=10^(-pHI);
-    C_HC=10^(-pHC);
+    C_HI = 10 ^ (-pHI);
+    C_HC = 10 ^ (-pHC);
     //concentrations
     C_NaE = m0NaE / Vew;
     C_KE = m0KE / Vew;
@@ -530,7 +538,7 @@ package CIPE_rovnice
     C_GSH = m0GSH / Vew;
     C_imE = m0imE / Vew;
     C_PiE = mPiE / Vew;
-    C_LacE=mLacE/Vew;
+    C_LacE = mLacE / Vew;
     //
     C_NaP = mNaP / Vpw;
     C_NaI = mNaI / Viw;
@@ -543,29 +551,31 @@ package CIPE_rovnice
     C_PiP = mPiP / Vpw;
     C_PiI = mPiI / Viw;
     C_AlbP = m0AlbP / Vpw;
-    C_Tpro=Tpro*Vpw0/Vpw;
+    C_Tpro = Tpro * Vpw0 / Vpw;
     C_AlbI = m0AlbI / Viw;
     //C_imP = m0imP / Vpw;
     //C_imI = m0imI / Viw;
-    C_LacP=mLacP/Vpw;
-    C_LacI=mLacI/Viw;
+    C_LacP = mLacP / Vpw;
+    C_LacI = mLacI / Viw;
     //
-    C_NaC=mNaC/Vcw;
-    C_KC=mKC/Vcw;
-    C_ClC=mClC/Vcw;
-    C_imC=m0imC/Vcw;
+    C_NaC = mNaC / Vcw;
+    C_KC = mKC / Vcw;
+    C_ClC = mClC / Vcw;
+    C_imC = m0imC / Vcw;
     //
-    Op=0.93 * (C_NaP) + 0.93 * (C_KP) + 0.93 * (C_ClP) + 0.93*(C_CaMgP) + 0.93 * (HCO3P) + 0.93 * (CO3P) + 0.93 * (C_PiP) + C_Tpro + C_LacP;
-    Oi=0.93 * (C_NaI) + 0.93 * (C_KI) + 0.93 * (C_ClI) + 0.93*(C_CaMgI) + 0.93 * (HCO3I) + 0.93 * (CO3I) + 0.93 * (C_PiI) + C_AlbI + C_LacI;
-    PrB=kB*((Vew/0.73+Vpw/0.94)-Vblood)/Vblood;
-    kItr=(Viw-Viw0)/Viw0;
-    if kItr>0.097 then
-      PrI=PrItr+kIoh*(kItr);
+    Oe = 0.93 * C_NaE + 0.93 * C_KE + 0.93 * C_ClE + 0.93 * C_PiE + fiHb * C_Hb + C_DPG + C_ATP + C_GSH + 0.93 * C_LacE + C_imE;
+    Op = 0.93 * C_NaP + 0.93 * C_KP + 0.93 * C_ClP + 0.93 * C_CaMgP + 0.93 * HCO3P + 0.93 * CO3P + 0.93 * C_PiP + C_AlbP + C_LacP;
+    Oi = 0.93 * C_NaI + 0.93 * C_KI + 0.93 * C_ClI + 0.93 * C_CaMgI + 0.93 * HCO3I + 0.93 * CO3I + 0.93 * C_PiI + C_AlbI + C_LacI;
+    Oc = 0.93 * C_NaC + 0.93 * C_KC + 0.93 * C_ClC + 0.93 * HCO3C + 0.93 * CO3C + C_imC;
+    PrB = kB * (Vew / 0.73 + Vpw / 0.94 - Vblood) / Vblood;
+    kItr = (Viw - Viw0) / Viw0;
+    if kItr > 0.097 then
+      PrI = PrItr + kIoh * kItr;
     else
-      PrI=kImh*kItr;
+      PrI = kImh * kItr;
     end if;
     //PrB0-PrI0=17.3;
     annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})));
   end CIPE1;
-  annotation (uses(Modelica(version="3.2.1")));
+  annotation(uses(Modelica(version = "3.2.1")));
 end CIPE_rovnice;
