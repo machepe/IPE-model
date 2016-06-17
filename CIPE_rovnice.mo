@@ -267,10 +267,12 @@ package CIPE_rovnice
     parameter Real PiP(unit = "mol/m3", displayUnit = "mmol/l") = 1.23;
     parameter Real PiI(unit = "mol/m3", displayUnit = "mmol/l") = 1.36;
     parameter Real AlbP(unit = "mol/m3", displayUnit = "mmol/l") = 43 / 66.5;
-    parameter Real Tpro(unit = "mol/m3", displayUnit = "mmol/l") = 70.4 / 90;
+    parameter Real Tpro(unit = "mol/m3", displayUnit = "mmol/l") = 70.4 / 70;
     parameter Real AlbI(unit = "mol/m3", displayUnit = "mmol/l") = (43 / 66.5)/2;
     parameter Real LacP(unit = "mol/m3", displayUnit = "mmol/l") = 1.51;
     parameter Real LacI(unit = "mol/m3", displayUnit = "mmol/l") = 1.69;
+    parameter Real imP(unit = "mol/m3", displayUnit = "mmol/l") = 10.6;
+    parameter Real imI(unit = "mol/m3", displayUnit = "mmol/l") = 10.6;
     //cells
     parameter Real NaC(unit = "mol/m3", displayUnit = "mmol/l") = 12;
     parameter Real KC(unit = "mol/m3", displayUnit = "mmol/l") = 141.2;
@@ -278,8 +280,6 @@ package CIPE_rovnice
     parameter Real imC(unit = "mol/m3", displayUnit = "mmol/l") = 129;
     parameter Real kNa = 368;
     parameter Real kH = 10;
-    //parameter Real imP = 0;
-    //parameter Real imI = 0;
     //charge [-]
     parameter Real ZimE = -3.25;
     parameter Real ZimI = 8.92;
@@ -330,8 +330,8 @@ package CIPE_rovnice
     parameter Real m0PiI(unit="mmol") = PiI * Viw0;
     parameter Real m0AlbP(unit="mmol") = AlbP * Vpw0;
     parameter Real m0AlbI(unit="mmol") = AlbI * Viw0;
-    //parameter Real m0imP = imP * Vpw0;
-    //parameter Real m0imI = imI * Viw0;
+    parameter Real m0imP = imP * Vpw0;
+    parameter Real m0imI = imI * Viw0;
     parameter Real m0LacP(unit="mmol") = LacP * Vpw0;
     parameter Real m0LacI(unit="mmol") = LacI * Viw0;
     //
@@ -429,8 +429,8 @@ package CIPE_rovnice
     Real C_AlbP(unit="mmol/l", start = AlbP);
     Real C_Tpro(unit="mmol/l", start = Tpro);
     Real C_AlbI(unit="mmol/l", start = AlbI);
-    //Real C_imP(start = imP);
-    //Real C_imI(start = imI);
+    Real C_imP(start = imP);
+    Real C_imI(start = imI);
     Real C_LacP(unit="mmol/l", start = LacP);
     Real C_LacI(unit="mmol/l", start = LacI);
     Real C_HI(unit="mmol/l", start = 10 ^ (-7.39));
@@ -554,8 +554,8 @@ package CIPE_rovnice
     C_AlbP = m0AlbP / Vpw;
     C_Tpro = Tpro * Vpw0 / Vpw;
     C_AlbI = m0AlbI / Viw;
-    //C_imP = m0imP / Vpw;
-    //C_imI = m0imI / Viw;
+    C_imP = m0imP / Vpw;
+    C_imI = m0imI / Viw;
     C_LacP = mLacP / Vpw;
     C_LacI = mLacI / Viw;
     //
@@ -564,10 +564,10 @@ package CIPE_rovnice
     C_ClC = mClC / Vcw;
     C_imC = m0imC / Vcw;
     //
-    Oe = 0.93 * C_NaE + 0.93 * C_KE + 0.93 * C_ClE + 0.93 * C_PiE + fiHb * C_Hb + C_DPG + C_ATP + C_GSH + 0.93 * C_LacE + C_imE;
-    Op = 0.93 * C_NaP + 0.93 * C_KP + 0.93 * C_ClP + 0.93 * C_CaMgP + 0.93 * HCO3P + 0.93 * CO3P + 0.93 * C_PiP + C_Tpro + C_LacP;
-    Oi = 0.93 * C_NaI + 0.93 * C_KI + 0.93 * C_ClI + 0.93 * C_CaMgI + 0.93 * HCO3I + 0.93 * CO3I + 0.93 * C_PiI + C_AlbI + C_LacI;
-    Oc = 0.93 * C_NaC + 0.93 * C_KC + 0.93 * C_ClC + 0.93 * HCO3C + 0.93 * CO3C + C_imC;
+    Oe = 0.93 * C_NaE + 0.93 * C_KE + 0.93 * C_ClE + 0.93 * C_PiE + fiHb * C_Hb + C_DPG + C_ATP + C_GSH + C_LacE + C_imE + HCO3E + CO3E;
+    Op = 0.93 * C_NaP + 0.93 * C_KP + 0.93 * C_ClP + C_CaMgP + HCO3P + CO3P + 0.93 * C_PiP + C_Tpro + C_LacP + C_imP;
+    Oi = 0.93 * C_NaI + 0.93 * C_KI + 0.93 * C_ClI + C_CaMgI + HCO3I + CO3I + 0.93 * C_PiI + C_AlbI + C_LacI + C_imI;
+    Oc = 0.93 * C_NaC + 0.93 * C_KC + 0.93 * C_ClC + HCO3C + CO3C + C_imC;
     PrB = kB * (Vew / 0.73 + Vpw / 0.94 - Vblood) / Vblood;
     kItr = (Viw - Viw0) / Viw0;
     if kItr > 0.097 then
