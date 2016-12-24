@@ -415,6 +415,7 @@ package CIPE_rovnice
     Real C_imE(unit="mmol/l", start = imE);
     Real C_PiE(unit="mmol/l", start = PiE);
     Real C_LacE(unit="mmol/l", start = LacE);
+    Real C_HE(unit="mmol/l", start = 10 ^ (-7.19));
     //
     Real C_NaP(unit="mmol/l", start = NaP);
     Real C_NaI(unit="mmol/l", start = NaI);
@@ -434,6 +435,7 @@ package CIPE_rovnice
     Real C_LacP(unit="mmol/l", start = LacP);
     Real C_LacI(unit="mmol/l", start = LacI);
     Real C_HI(unit="mmol/l", start = 10 ^ (-7.39));
+    Real C_HP(unit="mmol/l", start = 10 ^ (-7.37));
     //
     Real C_NaC(unit="mmol/l", start = NaC);
     Real C_KC(unit="mmol/l", start = KC);
@@ -456,8 +458,8 @@ package CIPE_rovnice
     parameter Real PrItr = 9;
     parameter Real Slm = 0.99;
     parameter Real Ssm = 0.5;
-    parameter Real PIP = 25.4;
-    parameter Real PII = 12.7;
+    Real PIP(start = 25.4);
+    Real PII(start = 12.7);
   equation
     //mass conservation
     MCl = mClE + mClP + mClI + mClC;
@@ -473,10 +475,10 @@ package CIPE_rovnice
     //1 equation
     //
     //Donnan equilibrium
-    C_ClE / C_ClP = 0.92 * (HCO3E / HCO3P);
+    C_ClE / C_ClP = C_HP/C_HE;
     C_ClE / C_ClP = C_LacE / C_LacP;
     (C_ClE / C_ClP) ^ abs(ZPiP) = C_PiE / C_PiP;
-    C_ClI / C_ClP = 0.92 * (HCO3I / HCO3P);
+    C_ClI / C_ClP = C_HP/C_HI;
     C_ClI / C_ClP = C_NaP / C_NaI;
     C_ClI / C_ClP = C_KP / C_KI;
     (C_ClI / C_ClP) ^ 2 = C_CaMgP / C_CaMgI;
@@ -490,6 +492,8 @@ package CIPE_rovnice
     //electroneutrality
     C_NaP + C_KP + 2 * C_CaMgP - C_ClP - HCO3P - 2 * CO3P + ZPiP * C_PiP + ZAlbP * C_AlbP + ZimP * (Vpw0 / Vpw) - C_LacP + XP = 0;
     C_NaI + C_KI + 2 * C_CaMgI - C_ClI - HCO3I - 2 * CO3I + ZPiI * C_PiI + ZAlbI * C_AlbI + ZimI * (Viw0 / Viw) - C_LacI + XI = 0;
+    //C_NaE + C_KE - C_ClE - HCO3E - 2 * CO3E + ZHb * C_Hb + ZDPG * C_DPG + ZATP * C_ATP + ZGSH * C_GSH + ZimE * (Vew0 / Vew) + ZPiE * C_PiE - C_LacE + XE = 0;
+    //C_NaC + C_KC - C_ClC - HCO3C - 2 * CO3C + ZimC * (Vcw0 / Vcw) + XC = 0;
     C_NaE + C_KE - C_ClE - HCO3E - 2 * CO3E + ZHb * C_Hb + ZDPG * C_DPG + ZATP * C_ATP + ZGSH * C_GSH + ZimE * C_imE + ZPiE * C_PiE - C_LacE + XE = 0;
     C_NaC + C_KC - C_ClC - HCO3C - 2 * CO3C + ZimC * C_imC + XC = 0;
     //4 equations
@@ -503,7 +507,7 @@ package CIPE_rovnice
     //2 equations
     //
     //pressure equilibrium
-    PrB - PrI + 17.3 - Ssm * (PIP - PII) - 19.3 * Slm * (Op - Oi) = 0;
+    PrB - PrI - 17.3 - Slm * (PIP - PII) - 19.3 * Ssm * (Op - Oi) = 0;
     //1 equation
     //
     //pH dependant charges
@@ -527,8 +531,10 @@ package CIPE_rovnice
     CO3I = HCO3I * 10 ^ (pHI - 10.2);
     HCO3C = 0.029 * pCO2 * 10 ^ (pHC - 6.11);
     CO3C = HCO3C * 10 ^ (pHC - 10.2);
-    C_HI = 10 ^ (-pHI);
-    C_HC = 10 ^ (-pHC);
+    pHE=-log10(C_HE);
+    pHP=-log10(C_HP);
+    pHI=-log10(C_HI);
+    pHC=-log10(C_HC);
     //concentrations
     C_NaE = m0NaE / Vew;
     C_KE = m0KE / Vew;
@@ -564,11 +570,15 @@ package CIPE_rovnice
     C_ClC = mClC / Vcw;
     C_imC = m0imC / Vcw;
     //
+    PIP=(C_AlbP*6.65)*(2.8+0.18*(C_Tpro*7)+0.012*(C_Tpro*7)^2)+(C_Tpro*7-C_AlbP)*(0.9+0.12*C_Tpro*7+0.004*(C_Tpro*7)^2);
+    PII=(C_AlbI*6.65)*(2.8+0.18*(C_AlbI*6.65)+0.012*(C_AlbI*6.65)^2);
+    //PIP=(C_AlbP)*(2.8+0.18*(C_Tpro)+0.012*(C_Tpro)^2)+(C_Tpro-C_AlbP)*(0.9+0.12*C_Tpro+0.004*(C_Tpro)^2);
+    //PII=(C_AlbI)*(2.8+0.18*(C_AlbI)+0.012*(C_AlbI)^2);
     Oe = 0.93 * C_NaE + 0.93 * C_KE + 0.93 * C_ClE + 0.93 * C_PiE + fiHb * C_Hb + C_DPG + C_ATP + C_GSH + C_LacE + C_imE + HCO3E + CO3E;
-    Op = 0.93 * C_NaP + 0.93 * C_KP + 0.93 * C_ClP + C_CaMgP + HCO3P + CO3P + 0.93 * C_PiP + C_Tpro + C_LacP + C_imP;
+    Op = 0.93 * C_NaP + 0.93 * C_KP + 0.93 * C_ClP + C_CaMgP + HCO3P + CO3P + 0.93 * C_PiP + C_AlbP + C_LacP + C_imP;
     Oi = 0.93 * C_NaI + 0.93 * C_KI + 0.93 * C_ClI + C_CaMgI + HCO3I + CO3I + 0.93 * C_PiI + C_AlbI + C_LacI + C_imI;
     Oc = 0.93 * C_NaC + 0.93 * C_KC + 0.93 * C_ClC + HCO3C + CO3C + C_imC;
-    PrB = kB * (Vew / 0.73 + Vpw / 0.94 - Vblood) / Vblood;
+    PrB = (kB * ((Vew / 0.73 + Vpw / 0.94)- Vblood) / Vblood);
     kItr = (Viw - Viw0) / Viw0;
     if kItr > 0.097 then
       PrI = PrItr + kIoh * kItr;

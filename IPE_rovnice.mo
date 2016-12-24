@@ -1,34 +1,8 @@
 within ;
 package IPE_rovnice
 
-
-
-
-
-
-
-
-
-
-
-
-
   //model IPE12_promenyPHE
   //end IPE12_promenyPHE;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   partial model Part
     //default parameters
@@ -179,13 +153,13 @@ package IPE_rovnice
     Real C_imI(unit="mmol/l",start = imI) = m0imI / Viw;
     //osmolality
     Real Oe = (0.93 * C_NaE + 0.93 * C_KE + 0.93 * C_ClE + 0.93 * C_PiE + fiHb * C_Hb + C_DPG + C_ATP + C_GSH + C_imE + HCO3E + CO3E)*0.73;
-    Real Op = (0.93 * C_NaP + 0.93 * C_KP + 0.93 * C_ClP + C_CaP + C_MgP + HCO3P + CO3P + 0.93 * C_PiP + C_AlbP + C_imP)*0.94;
+    Real Op = (0.93 * C_NaP + 0.93 * C_KP + 0.93 * C_ClP + C_CaP + C_MgP + HCO3P + CO3P + 0.93 * C_PiP + C_AlbP + C_imP) *0.94;
     Real Oi = 0.93 * C_NaI + 0.93 * C_KI + 0.93 * C_ClI + C_CaI + C_MgI + HCO3I + CO3I + 0.93 * C_PiI + C_AlbI + C_imI;
     //electric charge
-    Real Qe = (C_NaE + C_KE - C_ClE - HCO3E - 2 * CO3E + ZHb * C_Hb + ZDPG * C_DPG + ZATP * C_ATP + ZGSH * C_GSH + ZimE)/Vew;
-    Real Qp = (C_NaP + C_KP + 2 * C_CaP + 2 * C_MgP - C_ClP - HCO3P - 2 * CO3P + ZPi * C_PiP + ZAlb * C_AlbP + ZimP + X)/Vpw;
-    Real X(unit="mEq/l");
-    Real Qi = (C_NaI + C_KI + 2 * C_CaI + 2 * C_MgI - C_ClI - HCO3I - 2 * CO3I + ZPi * C_PiI + ZAlb * C_AlbI + ZimI)/Viw;
+    Real Qe = (C_NaE + C_KE - C_ClE - HCO3E - 2 * CO3E + ZHb * C_Hb + ZDPG * C_DPG + ZATP * C_ATP + ZGSH * C_GSH + ZimE)*Vew;
+    Real Qp = (C_NaP + C_KP + 2 * C_CaP + 2 * C_MgP - C_ClP - HCO3P - 2 * CO3P + ZPi * C_PiP + ZAlb * C_AlbP + ZimP)*Vpw+X;
+    Real X(unit="mEq");
+    Real Qi = (C_NaI + C_KI + 2 * C_CaI + 2 * C_MgI - C_ClI - HCO3I - 2 * CO3I + ZPi * C_PiI + ZAlb * C_AlbI + ZimI)*Viw;
     //
     Real BE;
     Real SID;
@@ -349,8 +323,7 @@ package IPE_rovnice
     XMg=0;
     XVw=2-time;
   end Exp_water;
-  annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})),
-    uses(Modelica(version="3.2.1")));
+
   model respiratoryRegulation
     extends Part;
     parameter Real pH0=7.37;
@@ -362,7 +335,7 @@ package IPE_rovnice
     -der(PCO2)=(dpH*1000);
     X = 0;
     XCl=0;
-    XNa=0;
+    XNa=250;
     XK=0;
     XCa=0;
     XMg=0;
@@ -378,7 +351,7 @@ package IPE_rovnice
   equation
     dpH = pH0 - pHP;
     der(X) = (dpH*10000);
-    PCO2 = 46;
+    PCO2 = 80;
     XCl=0;
     XNa=0;
     XK=0;
@@ -386,4 +359,6 @@ package IPE_rovnice
     XMg=0;
     XVw=0;
   end metabolicRegulation;
+  annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})),
+    uses(Modelica(version="3.2.1")));
 end IPE_rovnice;
