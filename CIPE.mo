@@ -55,7 +55,8 @@ package CIPE
     parameter Real Vcell(unit="l") = 26.8;
     //
     //partial pressure of CO2 [mmHg]
-    parameter Real pCO2(unit = "torr") = 46;
+    //parameter Real pCO2(unit = "torr") = 46;
+    Real pCO2;
     parameter Real fSat = 0.75;
     //
     //Water volumes of erythrcytes, plasma and intersticium
@@ -147,10 +148,10 @@ package CIPE
     //4 variables
     //
     //pH
-    Real pHE(start = 7.19);
-    Real pHP(start = 7.37);
-    Real pHI(start = 7.39);
-    Real pHC(start = 6.9);
+    Real pHE;//(start = 7.19);
+    Real pHP;//(start = 7.37);
+    Real pHI;//(start = 7.39);
+    Real pHC;//(start = 6.9);
     //pH dependant charges
     Real ZPiE;
     Real ZPiP;
@@ -179,7 +180,7 @@ package CIPE
     Real C_imE(unit="mmol/l", start = imE);
     Real C_PiE(unit="mmol/l", start = PiE);
     Real C_LacE(unit="mmol/l", start = LacE);
-    Real C_HE(unit="mmol/l", start = 10 ^ (-7.19));
+    Real C_HE(unit="mmol/l", start = 10 ^ (-(a-0.18)));
     //
     Real C_NaP(unit="mmol/l", start = NaP);
     Real C_NaI(unit="mmol/l", start = NaI);
@@ -198,14 +199,14 @@ package CIPE
     Real C_imI(start = imI);
     Real C_LacP(unit="mmol/l", start = LacP);
     Real C_LacI(unit="mmol/l", start = LacI);
-    Real C_HI(unit="mmol/l", start = 10 ^ (-7.39));
-    Real C_HP(unit="mmol/l", start = 10 ^ (-7.37));
+    Real C_HI(unit="mmol/l", start = 10 ^ (-(a+0.02)));
+    Real C_HP(unit="mmol/l", start = 10 ^ (-a));
     //
     Real C_NaC(unit="mmol/l", start = NaC);
     Real C_KC(unit="mmol/l", start = KC);
     Real C_ClC(unit="mmol/l", start = ClC);
     Real C_imC(unit="mmol/l", start = imC);
-    Real C_HC(unit="mmol/l", start = 10 ^ (-6.9));
+    Real C_HC(unit="mmol/l", start = 10 ^ (-(a-0.4)));
     //
     Real Oe;
     Real Oc;
@@ -222,12 +223,17 @@ package CIPE
     parameter Real PrItr = 9;
     parameter Real Slm = 0.99;
     parameter Real Ssm = 0.5;
-    Real PIP(start = 25.4);
-    Real PII(start = 12.7);
+    parameter Real PIP(start = 25.4);
+    parameter Real PII(start = 12.7);
+    Real a;
+    Real XNa=0;
+    Real XCl=0;
   equation
+    a=7.7;
+    pHI=7.7-1*time;
     //mass conservation
-    MCl = mClE + mClP + mClI + mClC;
-    MNa = mNaP + mNaI + mNaC;
+    MCl = mClE + mClP + mClI + mClC-XCl;
+    MNa = mNaP + mNaI + mNaC-XNa;
     MK = mKP + mKI + mKC;
     MCaMg = mCaMgP + mCaMgI;
     MPi = mPiE + mPiP + mPiI;
@@ -334,8 +340,8 @@ package CIPE
     C_ClC = mClC / Vcw;
     C_imC = m0imC / Vcw;
     //
-    PIP=(C_AlbP*6.65)*(2.8+0.18*(C_Tpro*7)+0.012*(C_Tpro*7)^2)+(C_Tpro*7-C_AlbP)*(0.9+0.12*C_Tpro*7+0.004*(C_Tpro*7)^2);
-    PII=(C_AlbI*6.65)*(2.8+0.18*(C_AlbI*6.65)+0.012*(C_AlbI*6.65)^2);
+    //PIP=(C_AlbP*6.65)*(2.8+0.18*(C_Tpro*7)+0.012*(C_Tpro*7)^2)+(C_Tpro*7-C_AlbP)*(0.9+0.12*C_Tpro*7+0.004*(C_Tpro*7)^2);
+    //PII=(C_AlbI*6.65)*(2.8+0.18*(C_AlbI*6.65)+0.012*(C_AlbI*6.65)^2);
     //PIP=(C_AlbP)*(2.8+0.18*(C_Tpro)+0.012*(C_Tpro)^2)+(C_Tpro-C_AlbP)*(0.9+0.12*C_Tpro+0.004*(C_Tpro)^2);
     //PII=(C_AlbI)*(2.8+0.18*(C_AlbI)+0.012*(C_AlbI)^2);
     Oe = 0.93 * C_NaE + 0.93 * C_KE + 0.93 * C_ClE + 0.93 * C_PiE + fiHb * C_Hb + C_DPG + C_ATP + C_GSH + C_LacE + C_imE + HCO3E + CO3E;
@@ -344,10 +350,10 @@ package CIPE
     Oc = 0.93 * C_NaC + 0.93 * C_KC + 0.93 * C_ClC + HCO3C + CO3C + C_imC;
     PrB = (kB * ((Vew / 0.73 + Vpw / 0.94)- Vblood) / Vblood);
     kItr = (Viw - Viw0) / Viw0;
-    if kItr > 0.097 then
-      PrI = PrItr + kIoh * kItr;
+    if noEvent(kItr >0.097) then
+      PrI=PrItr+kIoh*kItr;
     else
-      PrI = kImh * kItr;
+      PrI=kImh*kItr;
     end if;
     //PrB0-PrI0=17.3;
     annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})), Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {2, 2})));
